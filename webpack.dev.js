@@ -27,7 +27,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js?|jsx?)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -88,6 +88,18 @@ module.exports = {
       {
         test: /\.html$/,
         loader: 'html-loader'
+      },
+      {
+        test: /\.json/i,
+        type: 'javascript/auto',
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]'
+            }
+          }
+        ]
       },
       {
         exclude: /\.(css|less|scss|js|html|jpg|png|gif)$/,
