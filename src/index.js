@@ -1,35 +1,19 @@
 import 'ol/ol.css';
-import { Map, View, Feature } from 'ol';
+import { Map, View } from 'ol';
 import { Tile, Vector as VectorLayer } from 'ol/layer';
 import { OSM, Vector } from 'ol/source';
-import { Point } from 'ol/geom';
-import { Fill, Circle, Style } from 'ol/style';
-import { getColorByRate } from './utils';
-
-import coords from './assets/cords';
-import data from './assets/data';
+import drawBoundary from './drawBoundary';
+import addAnchor from './addAnchor';
 
 const center = [116.404177, 39.909652];
 
-const generateAnchor = (raw, coord, layer) => {
-  const anchor = new Feature({
-    geometry: new Point(coord.coordinates)
-  });
-  const fill = new Fill({
-    color: getColorByRate(raw.quality)
-  });
-  anchor.setStyle(
-    new Style({
-      image: new Circle({
-        fill,
-        radius: 5
-      })
-    })
-  );
-  layer.getSource().addFeature(anchor);
-};
+// 打点图层
+const anchorLayer = new VectorLayer({
+  source: new Vector()
+});
 
-const vectorLayer = new VectorLayer({
+// 边界图层
+const boundaryLayer = new VectorLayer({
   source: new Vector()
 });
 
@@ -39,25 +23,19 @@ const map = new Map({
     new Tile({
       source: new OSM()
     }),
-    vectorLayer
+    anchorLayer,
+    boundaryLayer
   ],
   view: new View({
     projection: 'EPSG:4326',
     center,
-    zoom: 6
+    zoom: 5,
+    maxZoom: 6
   })
 });
 
-let index = 0;
-const len = data.length;
-const addMarker = () => {
-  generateAnchor(data[index], coords[index], vectorLayer);
-  if (index < len) {
-    index += 1;
-    window.requestAnimationFrame(addMarker);
-  }
-};
+drawBoundary(boundaryLayer);
 
-window.requestAnimationFrame(addMarker);
+addAnchor(anchorLayer);
 
 map.on('click', () => {});

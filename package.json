@@ -8,29 +8,6 @@
     "build": "webpack --progress --config webpack.prod.js",
     "start": "webpack-dev-server --config webpack.dev.js"
   },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": [
-      "airbnb-base"
-    ],
-    "rules": {
-      "import/no-extraneous-dependencies": [
-        "error",
-        {
-          "devDependencies": true
-        }
-      ],
-      "operator-linebreak": [
-        "error",
-        "after"
-      ],
-      "comma-dangle": 0,
-      "linebreak-style": 0
-    },
-    "env": {
-      "browser": true
-    }
-  },
   "sideEffects": [
     "*.css",
     "*.less",
@@ -49,7 +26,6 @@
     ]
   },
   "dependencies": {
-    "leaflet": "^1.7.1",
     "ol": "^6.4.3"
   },
   "devDependencies": {
