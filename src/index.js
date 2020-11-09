@@ -30,7 +30,7 @@ const map = new Map({
     projection: 'EPSG:4326',
     center,
     zoom: 5,
-    maxZoom: 6
+    maxZoom: 8
   })
 });
 
