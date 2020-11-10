@@ -79,7 +79,6 @@ export const getPopup = () => overlay;
 
 export const showPopup = (options) => {
   const { coordinate, data } = options;
-  console.log(data);
   content.innerHTML = createHtmlStringByData(data);
   overlay.setPosition(coordinate);
 };

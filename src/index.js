@@ -46,7 +46,6 @@ map.on('click', (event) => {
   const { pixel, coordinate } = event;
   const pointFeature = map.forEachFeatureAtPixel(pixel, (feature) => feature);
   const { data, type } = pointFeature.getProperties();
-  console.log(1);
   if (type && type === 'anchor') {
     showPopup({ coordinate, data });
   }
