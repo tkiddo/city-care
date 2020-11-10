@@ -1,6 +1,6 @@
 import { Feature } from 'ol';
 import { MultiPolygon } from 'ol/geom';
-import { Stroke, Style } from 'ol/style';
+import { Fill, Stroke, Style } from 'ol/style';
 import { getBoundary } from './api';
 
 const generateBoundary = (coordinates, vectorLayer) => {
@@ -13,9 +13,13 @@ const generateBoundary = (coordinates, vectorLayer) => {
     width: 3
   });
 
+  const fill = new Fill({
+    color: 'rgba(0,0,0,0.5)'
+  });
   feature.setStyle(
     new Style({
-      stroke
+      stroke,
+      fill
     })
   );
 

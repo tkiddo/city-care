@@ -1,9 +1,11 @@
 import 'ol/ol.css';
+import './index.scss';
 import { Map, View } from 'ol';
 import { Tile, Vector as VectorLayer } from 'ol/layer';
 import { OSM, Vector } from 'ol/source';
 import drawBoundary from './drawBoundary';
 import addAnchor from './addAnchor';
+import { getPopup, showPopup } from './popup';
 
 const center = [116.404177, 39.909652];
 
@@ -23,14 +25,14 @@ const map = new Map({
     new Tile({
       source: new OSM()
     }),
-    anchorLayer,
-    boundaryLayer
+
+    boundaryLayer,
+    anchorLayer
   ],
   view: new View({
     projection: 'EPSG:4326',
     center,
-    zoom: 5,
-    maxZoom: 6
+    zoom: 6
   })
 });
 
@@ -38,4 +40,13 @@ drawBoundary(boundaryLayer);
 
 addAnchor(anchorLayer);
 
-map.on('click', () => {});
+map.addOverlay(getPopup());
+
+map.on('click', (event) => {
+  const { pixel, coordinate } = event;
+  const pointFeature = map.forEachFeatureAtPixel(pixel, (feature) => feature);
+  const { data, type } = pointFeature.getProperties();
+  if (type && type === 'anchor') {
+    showPopup({ coordinate, data });
+  }
+});
