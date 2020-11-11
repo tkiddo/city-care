@@ -35,7 +35,7 @@ const generateAnchor = (raw, layer) => {
     new Style({
       image: new Circle({
         fill,
-        radius: 6
+        radius: 8
       })
       // text: new Text({
       //   text: raw.aqi.toString(),
