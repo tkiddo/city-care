@@ -6,7 +6,7 @@ import { OSM, Vector } from 'ol/source';
 import drawBoundary from './drawBoundary';
 import addAnchor from './addAnchor';
 import drawHotArea from './drawHotArea';
-import { getPopup, showPopup } from './popup';
+import { getPopup, showPopup, hidePopup } from './popup';
 
 const center = [116.404177, 39.909652];
 
@@ -39,7 +39,7 @@ const map = new Map({
   view: new View({
     projection: 'EPSG:4326',
     center,
-    zoom: 6
+    zoom: 5
   })
 });
 
@@ -50,13 +50,18 @@ addAnchor(anchorLayer);
 map.addOverlay(getPopup());
 
 map.on('click', (event) => {
-  const { pixel } = event;
+  const { pixel, coordinate } = event;
   const pointFeature = map.forEachFeatureAtPixel(pixel, (feature) => feature);
   if (!pointFeature) return;
-  console.log(pointFeature);
+
   const { data, type } = pointFeature.getProperties();
-  if (type && type === 'anchor') {
-    showPopup({ data });
+  if (type === 'anchor') {
+    showPopup({ coordinate, data });
+  } else if (type === 'province-hot') {
+    map.getView().setZoom(7);
+    map.getView().setCenter(data.center);
+  } else {
+    hidePopup();
   }
 });
 
@@ -66,7 +71,7 @@ map.on('pointermove', (event) => {
   const pointFeature = map.forEachFeatureAtPixel(pixel, (feature) => feature);
   if (!pointFeature) return hotAreaLayer.getSource().clear();
   const { data, geometry, type } = pointFeature.getProperties();
-  if (type && type === 'province') {
+  if (type === 'province') {
     drawHotArea({ data, geometry }, hotAreaLayer);
   }
 });

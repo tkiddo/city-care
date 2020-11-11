@@ -20,13 +20,17 @@ const overlay = new Overlay(
   })
 );
 
+export const hidePopup = () => {
+  overlay.setPosition(undefined);
+  closer.blur();
+};
+
 /**
  * Add a click handler to hide the popup.
  * @return {boolean} Don't follow the href.
  */
 closer.onclick = function onClick() {
-  overlay.setPosition(undefined);
-  closer.blur();
+  hidePopup();
   return false;
 };
 

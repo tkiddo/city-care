@@ -4,7 +4,9 @@ import { Fill, Style, Text } from 'ol/style';
 export default function drawHotArea(element, vectorLayer) {
   const { data, geometry } = element;
   const feature = new Feature({
-    geometry
+    geometry,
+    data,
+    type: 'province-hot'
   });
   const fill = new Fill({
     color: 'rgba(255,255,255,0.5)'

@@ -56,7 +56,7 @@ export default function addAnchor(vectorLayer) {
       generateAnchor({ ...data[index], ...coords[index] }, vectorLayer);
       window.requestAnimationFrame(step);
     }
-    index = 1;
+    index += 1;
   };
   window.requestAnimationFrame(step);
 }
