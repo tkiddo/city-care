@@ -22,6 +22,7 @@ import data from './assets/data';
 // };
 
 const generateAnchor = (raw, layer) => {
+  if (!raw.quality) return;
   const anchor = new Feature({
     geometry: new Point(raw.coordinates),
     name: raw.position_name,

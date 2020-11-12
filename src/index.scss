@@ -17,6 +17,7 @@
   bottom: 12px;
   left: -50px;
   z-index: 111111;
+  box-shadow: 5px 5px 5px gray;
 }
 .ol-popup:after,
 .ol-popup:before {
@@ -50,6 +51,36 @@
   content: '✖';
 }
 .ol-popup-content {
-  width: 300px;
-  height: 500px;
+  padding: 20px;
+  width: 200px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .content-header {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  .content-info {
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    color: #fff;
+    .content-aqi {
+      padding-right: 20px;
+      border-right: 2px solid darkcyan;
+      line-height: 25px;
+      text-align: center;
+    }
+    .content-quality {
+      padding-left: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
 }

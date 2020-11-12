@@ -1,4 +1,5 @@
 import Overlay from 'ol/Overlay';
+import { getColorByLevel } from './utils';
 
 /**
  * Elements that make up the popup.
@@ -35,48 +36,19 @@ closer.onclick = function onClick() {
 };
 
 const createHtmlStringByData = (data) => {
-  let htmlString = '';
-  Object.keys(data).forEach((key) => {
-    const value = data[key];
-    switch (key) {
-      case 'area':
-        htmlString += `<p>城市：${value}</p>`;
-        break;
-      case 'position_name':
-        htmlString += `<p>监测点：${value}</p>`;
-        break;
-      case 'station_code':
-        htmlString += `<p>监测点编码：${value}</p>`;
-        break;
-      case 'so2':
-        htmlString += `<p>二氧化硫1小时平均：${value}</p>`;
-        break;
-      case 'no2':
-        htmlString += `<p>二氧化氮1小时平均：${value}</p>`;
-        break;
-      case 'pm10':
-        htmlString += `<p>颗粒物（粒径小于等于10μm）1小时平均：${value}</p>`;
-        break;
-      case 'co':
-        htmlString += `<p>一氧化碳1小时平均：${value}</p>`;
-        break;
-      case 'o3':
-        htmlString += `<p>臭氧1小时平均：${value}</p>`;
-        break;
-      case 'pm2_5':
-        htmlString += `<p>颗粒物（粒径小于等于2.5μm）1小时平均：${value}</p>`;
-        break;
-      case 'primary_pollutant':
-        htmlString += `<p>首要污染物：${value}</p>`;
-        break;
-      case 'quality':
-        htmlString += `<p>空气质量指数类别：${value}</p>`;
-        break;
-      default:
-        break;
-    }
-  });
-  return htmlString;
+  // eslint-disable-next-line camelcase, object-curly-newline
+  const { aqi, area, quality, position_name } = data;
+  // eslint-disable-next-line camelcase
+  const header = `<div class='content-header'>${area} ${position_name}</div>`;
+  const info = `
+  <div class='content-info' style='background:${getColorByLevel(quality)}'>
+    <div class='content-aqi'>
+      <div class='content-title'>AQI</div>
+      <div class='content-value'>${aqi}</div>
+    </div>
+    <div class='content-quality'>${quality}</div>
+  </div>`;
+  return `${header}${info}`;
 };
 
 export const getPopup = () => overlay;
